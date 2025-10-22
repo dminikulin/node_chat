@@ -18,12 +18,13 @@ const messages = [];
 const rooms = [];
 
 app.post('/messages', (req, res) => {
-  const { username, text } = req.body;
+  const { author, text, roomId } = req.body;
 
   const message = {
     id: uuidv4(),
-    username,
+    author,
     text,
+    roomId,
     date: new Date(),
   };
 
@@ -98,8 +99,9 @@ wss.on('connection', (conn) => {
       case 'message':
         const message = {
           id: uuidv4(),
-          username: data.username,
+          author: data.author,
           text: data.text,
+          roomId: data.roomId,
           date: new Date(),
         };
 
@@ -124,13 +126,13 @@ wss.on('connection', (conn) => {
 
 emitter.on('message', (message) => {
   for (const client of wss.clients) {
-    client.send(JSON.stringify(message));
+    client.send(JSON.stringify({ type: 'message', ...message }));
   }
 });
 
 emitter.on('room', (room) => {
   for (const client of wss.clients) {
-    client.send(JSON.stringify(room));
+    client.send(JSON.stringify({ type: 'room', ...room }));
   }
 });
 

@@ -1,7 +1,7 @@
 import { SquarePen, X } from 'lucide-react';
 import { useState } from 'react';
 
-export const Room = ({ room, setAllRooms }) => {
+export const Room = ({ room, setAllRooms, isActive, onSelect }) => {
   const [isEditing, setEditing] = useState(false);
   const [newRoom, setNewRoom] = useState(room.name);
 
@@ -52,7 +52,10 @@ export const Room = ({ room, setAllRooms }) => {
   };
 
   return (
-    <div className="room">
+    <div
+      className={`room ${isActive ? 'room--active' : ''}`}
+      onClick={!isEditing ? onSelect : undefined}
+    >
       {isEditing ? (
         <>
           <form id="editForm" onSubmit={handleEditRoom}>
@@ -79,10 +82,22 @@ export const Room = ({ room, setAllRooms }) => {
             <p className="is-size-7">by {room.user}</p>
           </div>
           <div className="room__icons">
-            <span className="icon" onClick={() => setEditing(true)}>
+            <span
+              className="icon"
+              onClick={(e) => {
+                e.stopPropagation();
+                setEditing(true);
+              }}
+            >
               <SquarePen />
             </span>
-            <span className="icon has-text-danger" onClick={handleDeleteRoom}>
+            <span
+              className="icon has-text-danger"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteRoom();
+              }}
+            >
               <X />
             </span>
           </div>
