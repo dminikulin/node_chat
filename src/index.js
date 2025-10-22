@@ -2,7 +2,7 @@
 
 import express from 'express';
 import cors from 'cors';
-import { EventEmitter } from 'events';
+import { emitter } from './emitter.js';
 import { WebSocketServer } from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import { GET } from './utils.js';
@@ -11,8 +11,6 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-
-const emitter = new EventEmitter();
 
 const messages = [];
 const rooms = [];

@@ -96,7 +96,7 @@ export const Dashboard = ({ username }) => {
         wsRef.current.close();
       }
     };
-  }, [username, activeRoomId]);
+  }, []);
 
   const handleNewMessage = (e) => {
     e.preventDefault();

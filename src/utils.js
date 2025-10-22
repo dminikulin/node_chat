@@ -1,6 +1,4 @@
-import { EventEmitter } from 'events';
-
-const emitter = new EventEmitter();
+import { emitter } from './emitter.js';
 
 export const GET = (event, req, res) => {
   res.setHeader('Content-Type', 'text/event-stream');
